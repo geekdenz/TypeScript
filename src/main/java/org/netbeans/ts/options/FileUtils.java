@@ -1,6 +1,12 @@
 package org.netbeans.ts.options;
 
+import com.sun.javafx.geom.Vec2d;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -156,5 +162,25 @@ public final class FileUtils {
         }
         return sb.toString();
     }
+
+	public static int[] getCoordinates(String filename, int caretOffset) throws IOException {
+		File file = new File(filename);
+		String content = new String(Files.readAllBytes(Paths.get(filename)));
+		return getLineAndCursorPosition(content, caretOffset);
+	}
+	public static int[] getLineAndCursorPosition(String content, int caretOffset) {
+		int totalLength = 0;
+		int count = 0;
+		content = content.replace("\r", ""); // eliminate DOS new line chars!
+		for (String line : content.split("\n")) {
+			int lineLen = line.length() + 1; // need to add newline since caretOffset includes them
+			totalLength += lineLen;
+			count++;
+			if (totalLength >= caretOffset) {
+				return new int[]{count, totalLength - caretOffset + 1};
+			}
+		}
+		return new int[]{count, totalLength - caretOffset + 1};
+	}
 
 }

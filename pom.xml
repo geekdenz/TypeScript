@@ -161,6 +161,11 @@
             <artifactId>org-netbeans-modules-editor-errorstripe</artifactId>
             <version>RELEASE802</version>
         </dependency>
+        <dependency>
+            <groupId>org.netbeans.api</groupId>
+            <artifactId>org-netbeans-modules-editor-completion</artifactId>
+            <version>RELEASE802</version>
+        </dependency>
     </dependencies>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

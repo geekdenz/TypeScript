@@ -7,11 +7,15 @@
 				<attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.ts.Bundle"/>
 				<folder name="CodeTemplates">
 					<folder name="Defaults">
-						<file name="codetemplates.xml"
-							  url="codetemplates.xml"/>
+						<file name="codetemplates.xml" url="codetemplates.xml"/>
 					</folder>
 				</folder>
-				<folder name="FontsColors">
+				<folder name="CompletionProviders">
+                    <file name="org-netbeans-ts-completion-TsCompletionProvider.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.ts.completion.TsCompletionProvider"/>
+                    </file>
+                </folder>
+                <folder name="FontsColors">
 					<folder name="NetBeans">
 						<folder name="Defaults">
 							<file name="FontAndColors.xml" url="FontAndColors.xml">
@@ -20,7 +24,8 @@
 						</folder>
 					</folder>
 				</folder>
-			</folder>
+                <file name="org-netbeans-ts-completion-TsCompletionProvider.instance_hidden"/>
+            </folder>
 		</folder>
 	</folder>
 	<folder name="OptionsDialog">
