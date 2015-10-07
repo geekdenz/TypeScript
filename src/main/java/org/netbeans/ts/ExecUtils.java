@@ -1,43 +1,67 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Tools to execute commands and get the output back.
  */
 package org.netbeans.ts;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import javax.script.ScriptContext;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.SimpleScriptContext;
+import java.io.OutputStream;
+import org.openide.util.Exceptions;
 
-/**
- *
- * @author denz
- */
 public class ExecUtils {
-	
+
+	/**
+	 * Pipe str into command2 like in a unix shell. Basically str becomes input
+	 * to command2.
+	 *
+	 * Like echo a b c | sort "a b c" would be str "sort" would be command2.
+	 *
+	 * @param str the String to pass in
+	 * @param command2
+	 * @return output of the command
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static String pipe(String str, String command2) throws IOException, InterruptedException {
-		//Process p1 = Runtime.getRuntime().exec(command1);
-		//p.waitFor();
-		//BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-		Process p2 = Runtime.getRuntime().exec(command2);
-		p2.getInputStream().read(str.getBytes());
-		p2.waitFor();
-		BufferedReader reader
-				= new BufferedReader(new InputStreamReader(p2.getInputStream()));
-		StringBuilder sb = new StringBuilder();
+		ProcessBuilder process2 = new ProcessBuilder(command2.split(" "));
+		Process process = process2.start();
+		//process.waitFor(5000, TimeUnit.MILLISECONDS);
+		OutputStream out = process.getOutputStream();
+		out.write(str.getBytes());
+		//process.waitFor(5000, TimeUnit.MILLISECONDS);
+		out.close();
+		process.waitFor();
+		InputStreamReader isr = new InputStreamReader(process.getInputStream());
+		InputStreamReader errorReader = new InputStreamReader(process.getErrorStream());
+		BufferedReader br = new BufferedReader(isr);
+		BufferedReader ber = new BufferedReader(errorReader);
 		String line;
-		while ((line = reader.readLine()) != null) {
-			sb.append(line + "\n");
+		String output = "";
+		while ((line = br.readLine()) != null) {
+			output += line + "\n";
 		}
-		return sb.toString();
+		while ((line = ber.readLine()) != null) {
+			output += line + "\n";
+		}
+		return output;
 	}
+
+	/**
+	 * Simple execute of command.
+	 *
+	 * @param commands Usually separated by " "
+	 * @return output
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static String exec(String commands[]) throws IOException, InterruptedException {
-		Process p = Runtime.getRuntime().exec(commands);
+		Process p;
+		if (commands.length == 1) {
+			p = Runtime.getRuntime().exec(commands[0]);
+		} else {
+			p = Runtime.getRuntime().exec(commands);
+		}
 		p.waitFor();
 
 		BufferedReader reader
@@ -46,27 +70,41 @@ public class ExecUtils {
 		String line;
 		String output = "";
 		while ((line = reader.readLine()) != null) {
-			//sb.append(line + "\n");
 			output += line + "\n";
 		}
 		return output;
 	}
 
+	/**
+	 * Get the output of echo 'completions...' | tss $filename
+	 *
+	 * @param filename Type Script filename.ts
+	 * @param line to query
+	 * @param pos character position
+	 * @return output of the commands
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
 	public static String tss(String filename, int line, int pos) throws IOException, InterruptedException {
-		String tssJs = "/home/denz/.nvm/versions/node/v0.12.5/lib/node_modules/typescript-tools/bin/tss.js";
-		return exec(new String[]{"/bin/bash", "/home/denz/bin/tssc", filename, "completions-brief true "+ line +" "+ pos});
-		/*
-		ScriptEngineManager manager = new ScriptEngineManager();
-		ScriptEngine engine = manager.getEngineByName("js");
+		String tss = "/home/denz/.nvm/versions/node/v0.12.5/bin/node /home/denz/.nvm/versions/node/v0.12.5/bin/tss";
+		String str = "completions-brief true " + line + " " + pos + " " + filename + "\n";
+		String command2 = tss + " " + filename;
+		return pipe(str, command2);
+	}
+
+	/**
+	 * Super simple testing method.
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args) {
 		try {
-			FileReader reader = new FileReader(tssJs);
-			ScriptContext context = new SimpleScriptContext();
-			context.getWriter().write(tssJs);
-			String output = engine.eval(reader, context).toString();
-			reader.close();
-		} catch (Exception e) {
-			e.printStackTrace();
+			String out = tss("/home/denz/NetBeansProjects/HTML5Application7/public_html/newTsTemplate.ts", 11, 3);
+			System.out.println("OUT: " + out);
+		} catch (IOException ex) {
+			Exceptions.printStackTrace(ex);
+		} catch (InterruptedException ex) {
+			Exceptions.printStackTrace(ex);
 		}
-				*/
 	}
 }
