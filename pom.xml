@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.netbeans</groupId>
-    <artifactId>TypeScript</artifactId>
-    <version>1.0-SNAPSHOT</version>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.netbeans</groupId>
+	<artifactId>TypeScript</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>nbm</packaging>
-    <build>
-        <plugins>
-			<!--
+	<build>
+		<plugins>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
@@ -19,24 +18,26 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/target/extra-resources</outputDirectory>
+							<outputDirectory>${basedir}/target/classes/netbeanstypescript/resources</outputDirectory>
 							<resources>          
 								<resource>
-									<directory>src/non-packaged-resources</directory>
-									<filtering>true</filtering>
+									<directory>/home/denz/TypeScript-1.6.2/lib</directory>
+									<includes>
+										<include>lib.d.ts</include>
+										<include>lib.es6.d.ts</include>
+									</includes>
 								</resource>
 							</resources>              
 						</configuration>            
 					</execution>
 				</executions>
 			</plugin>
-			-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>nbm-maven-plugin</artifactId>
-                <version>3.14</version>
-                <extensions>true</extensions>
-                <configuration>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>nbm-maven-plugin</artifactId>
+				<version>3.14</version>
+				<extensions>true</extensions>
+				<configuration>
 					<nbmResources>
 						<nbmResource>
 							<directory>${basedir}/release</directory>    <!-- This is the sourcedir -->
@@ -45,260 +46,287 @@
 								<include>**/*</include>          <!-- Pattern of files to include -->
 							</includes>
 						</nbmResource>
+						<nbmResource>
+							<directory>${basedir}/target</directory>
+							<targetPath></targetPath>
+							<includes>
+								<include>nbts-services.js</include>
+							</includes>
+						</nbmResource>
 					</nbmResources>
 				</configuration>
 				<!--
-                <configuration>
-                    <moduleDependencies>
-                        <dependency>
-                            <id>org.netbeans.modules:org-netbeans-modules-javascript2-editor</id>
-                            <type>impl</type>
-                            <explicitValue>org.netbeans.modules.javascript2.editor/1 = 201508041349</explicitValue>
-                        </dependency>
-                    </moduleDependencies>
+				<configuration>
+					<moduleDependencies>
+						<dependency>
+							<id>org.netbeans.modules:org-netbeans-modules-javascript2-editor</id>
+							<type>impl</type>
+							<explicitValue>org.netbeans.modules.javascript2.editor/1 = 201508041349</explicitValue>
+						</dependency>
+					</moduleDependencies>
 				</configuration>
 				-->
 			</plugin>
 			<!--
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>nbm-maven-plugin</artifactId>
-                <version>3.14</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <moduleDependencies>
-                        <dependency>
-                            <id>org.netbeans.modules:org-netbeans-modules-javascript2-editor</id>
-                            <type>impl</type>
-                            <explicitValue>org.netbeans.modules.javascript2.editor/1 = 201508041349</explicitValue>
-                        </dependency>
-                    </moduleDependencies>
-                </configuration>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>nbm-maven-plugin</artifactId>
+				<version>3.14</version>
+				<extensions>true</extensions>
+				<configuration>
+					<moduleDependencies>
+						<dependency>
+							<id>org.netbeans.modules:org-netbeans-modules-javascript2-editor</id>
+							<type>impl</type>
+							<explicitValue>org.netbeans.modules.javascript2.editor/1 = 201508041349</explicitValue>
+						</dependency>
+					</moduleDependencies>
+				</configuration>
 			</plugin>
 			-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <useDefaultManifestFile>true</useDefaultManifestFile>
-                </configuration>
-            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<useDefaultManifestFile>true</useDefaultManifestFile>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<executions>
 					<execution>
+						<id>exec1</id>
 						<goals>
 							<goal>exec</goal>
 						</goals>
 						<phase>compile</phase>
+						<configuration>
+							<executable>nodejs</executable>
+							<workingDirectory>.</workingDirectory>
+							<arguments>
+								<argument>/home/denz/TypeScript-1.6.2/lib/tsc.js</argument>
+								<argument>ts/main.ts</argument>
+								<argument>--removeComments</argument>
+								<argument>--out</argument>
+								<argument>target/netbeans_clusters/nbts-services.js</argument>
+							</arguments>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<executable>nodejs</executable>
-					<workingDirectory>.</workingDirectory>
-					<arguments>
-						<argument>/home/denz/TypeScript-1.6.2/lib/tsc.js</argument>
-						<argument>ts/main.ts</argument>
-						<argument>--removeComments</argument>
-						<argument>--out</argument>
-						<argument>target/nbts-services.js</argument>
-					</arguments>
-				</configuration>
 			</plugin>
-        </plugins>
-    </build>
-    <repositories>
-        <repository>
-            <id>netbeans</id>
-            <name>Repository hosting NetBeans modules</name>
-            <url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <dependencies>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-api-annotations-common</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util</artifactId>
-            <version>RELEASE802</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-projectuiapi</artifactId>
-            <version>RELEASE802</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-projectapi</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+						<configuration>
+							<classifier>client</classifier>
+							<includes>
+								<include>**/service/*</include>
+							</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<repositories>
+		<repository>
+			<id>netbeans</id>
+			<name>Repository hosting NetBeans modules</name>
+			<url>http://bits.netbeans.org/nexus/content/groups/netbeans</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-api-annotations-common</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-util</artifactId>
+			<version>RELEASE802</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-projectuiapi</artifactId>
+			<version>RELEASE802</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-projectapi</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
 		<!--
-        <dependency>
-            <groupId>org.netbeans.modules</groupId>
-            <artifactId>org-netbeans-modules-javascript2-editor</artifactId>
-            <version>RELEASE802</version>
-            <type>jar</type>
+		<dependency>
+			<groupId>org.netbeans.modules</groupId>
+			<artifactId>org-netbeans-modules-javascript2-editor</artifactId>
+			<version>RELEASE802</version>
+			<type>jar</type>
 		</dependency>
 		-->
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-util-lookup</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-options-api</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-awt</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-filesystems</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-loaders</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-nodes</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-windows</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-text</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-dialogs</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-mimelookup</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-lib2</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-extexecution</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr4-runtime</artifactId>
-            <version>4.5.1</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-lexer</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-csl-api</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.modules</groupId>
-            <artifactId>org-netbeans-modules-editor-errorstripe</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-completion</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-libs-json_simple</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-openide-modules</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-core-multiview</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-util-lookup</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-options-api</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-awt</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-filesystems</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-loaders</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-nodes</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-windows</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-text</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-dialogs</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-mimelookup</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-lib2</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-extexecution</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.5.1</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-lexer</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-csl-api</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.modules</groupId>
+			<artifactId>org-netbeans-modules-editor-errorstripe</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-completion</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-libs-json_simple</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-openide-modules</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-core-multiview</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
 		<!--<dependency>
-            <groupId>org.netbeans.modules</groupId>
-            <artifactId>org-netbeans-modules-css-editor</artifactId>
-            <version>RELEASE802</version>
+			<groupId>org.netbeans.modules</groupId>
+			<artifactId>org-netbeans-modules-css-editor</artifactId>
+			<version>RELEASE802</version>
 		</dependency>-->
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-bracesmatching</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-util</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-indent</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-editor-lib</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-parsing-api</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-        <dependency>
-            <groupId>org.netbeans.api</groupId>
-            <artifactId>org-netbeans-modules-refactoring-api</artifactId>
-            <version>RELEASE802</version>
-        </dependency>
-    </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-bracesmatching</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-util</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-indent</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-editor-lib</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-parsing-api</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+		<dependency>
+			<groupId>org.netbeans.api</groupId>
+			<artifactId>org-netbeans-modules-refactoring-api</artifactId>
+			<version>RELEASE802</version>
+		</dependency>
+	</dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!--<typescript>${env.HOME}/TypeScript-1.6.2</typescript>-->
-    </properties>
+	</properties>
 </project>
