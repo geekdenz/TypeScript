@@ -3,7 +3,37 @@
 <filesystem>
     <folder name="Editors">
         <folder name="text">
+			<folder name="x-ts">
+				<attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.ts.Bundle"/>
+				<folder name="CodeTemplates">
+					<folder name="Defaults">
+						<file name="codetemplates.xml" url="codetemplates.xml"/>
+					</folder>
+				</folder>
+				<!--
+				<folder name="CompletionProviders">
+                    <file name="org-netbeans-ts-completion-TsCompletionProvider.instance">
+                        <attr name="instanceOf" stringvalue="org.netbeans.ts.completion.TsCompletionProvider"/>
+                    </file>
+                </folder>
+                <folder name="FontsColors">
+					<folder name="NetBeans">
+						<folder name="Defaults">
+							<file name="FontAndColors.xml" url="FontAndColors.xml">
+								<attr name="SystemFileSystem.localizingBundle" stringvalue="org.netbeans.ts.Bundle"/>
+							</file>
+						</folder>
+					</folder>
+				</folder>
+				<file name="org-netbeans-ts-completion-TsCompletionProvider.instance_hidden"/>
+				-->
+            </folder>
             <folder name="typescript">
+				<folder name="CodeTemplates">
+					<folder name="Defaults">
+						<file name="codetemplates.xml" url="codetemplates.xml"/>
+					</folder>
+				</folder>
                 <!--<file name="AutoIndenter.instance">
                     <attr name="instanceOf" stringvalue="org.netbeans.spi.editor.typinghooks.TypedTextInterceptor$Factory"/>
                     <attr name="instanceCreate"
