@@ -3,7 +3,7 @@ package org.netbeans.ts;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.netbeans.api.project.Project;
-import org.netbeans.modules.javascript2.editor.api.FrameworksUtils;
+//import org.netbeans.modules.javascript2.editor.api.FrameworksUtils;
 import org.netbeans.spi.project.ui.support.ProjectCustomizer;
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
@@ -14,6 +14,7 @@ import org.openide.util.NbBundle;
  */
 public class TypeScriptCustomizer implements ProjectCustomizer.CompositeCategoryProvider {
 
+	/*
     @ProjectCustomizer.CompositeCategoryProvider.Registrations({
         @ProjectCustomizer.CompositeCategoryProvider.Registration(
                 projectType = FrameworksUtils.HTML5_CLIENT_PROJECT,
@@ -31,6 +32,7 @@ public class TypeScriptCustomizer implements ProjectCustomizer.CompositeCategory
                 position = 270
         )
     })
+	*/
 
     public static TypeScriptCustomizer createCustomizer() {
         return new TypeScriptCustomizer();

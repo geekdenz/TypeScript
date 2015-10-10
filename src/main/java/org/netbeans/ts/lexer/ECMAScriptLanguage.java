@@ -4,7 +4,7 @@ import org.netbeans.api.lexer.Language;
 import org.netbeans.modules.csl.spi.DefaultLanguageConfig;
 import org.netbeans.modules.csl.spi.LanguageRegistration;
 
-@LanguageRegistration(mimeType = "text/x-ts")
+//@LanguageRegistration(mimeType = "text/x-ts")
 public class ECMAScriptLanguage extends DefaultLanguageConfig {
 
     @Override

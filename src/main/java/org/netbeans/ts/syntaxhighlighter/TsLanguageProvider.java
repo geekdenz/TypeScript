@@ -16,7 +16,7 @@ import org.netbeans.spi.lexer.LanguageProvider;
  *
  * @author denz
  */
-@org.openide.util.lookup.ServiceProvider(service=org.netbeans.spi.lexer.LanguageProvider.class)
+//@org.openide.util.lookup.ServiceProvider(service=org.netbeans.spi.lexer.LanguageProvider.class)
 public class TsLanguageProvider extends LanguageProvider {
 
     @Override

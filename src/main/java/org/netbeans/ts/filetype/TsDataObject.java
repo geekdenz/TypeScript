@@ -14,6 +14,7 @@ import org.openide.util.Lookup;
 import org.openide.util.NbBundle.Messages;
 import org.openide.windows.TopComponent;
 
+/*
 @Messages({
     "LBL_Ts_LOADER=Files of Ts"
 })
@@ -80,6 +81,7 @@ import org.openide.windows.TopComponent;
             position = 1400
     )
 })
+*/
 public class TsDataObject extends MultiDataObject {
 
     public TsDataObject(FileObject pf, MultiFileLoader loader) throws DataObjectExistsException, IOException {

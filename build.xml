@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See harness/README in the NetBeans platform -->
+<!-- for some information on what you could do (e.g. targets to override). -->
+<!-- If you delete this file and reopen the project it will be recreated. -->
+<project basedir="." default="netbeans" name="netbeanstypescript">
+    <description>Builds, tests, and runs the project module1.</description>
+    <import file="nbproject/build-impl.xml"/>
+
+    <property environment="env"/>
+    <property name="typescript" value="${env.HOME}/TypeScript-1.6.2"/>
+
+    <target name="compile" depends="projectized-common.compile">
+        <copy file="${typescript}/lib/lib.d.ts" todir="${build.classes.dir}/netbeanstypescript/resources/"/>
+        <copy file="${typescript}/lib/lib.es6.d.ts" todir="${build.classes.dir}/netbeanstypescript/resources/"/>
+    </target>
+
+    <target name="compile-ts-services-check">
+        <uptodate property="compile-ts-services.uptodate" targetfile="${cluster}/nbts-services.js">
+            <srcfiles dir="ts"/>
+        </uptodate>
+    </target>
+    <target name="netbeans-extra" depends="compile-ts-services-check" unless="compile-ts-services.uptodate">
+        <echo>Building nbts-services.js</echo>
+        <exec executable="nodejs" failonerror="true">
+            <arg value="${typescript}/lib/tsc.js"/>
+            <arg value="ts/main.ts"/>
+            <arg value="--removeComments"/>
+            <arg value="--out"/>
+            <arg value="${cluster}/nbts-services.js"/>
+        </exec>
+    </target>
+</project>
