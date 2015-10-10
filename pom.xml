@@ -21,7 +21,7 @@
 							<outputDirectory>${basedir}/target/classes/netbeanstypescript/resources</outputDirectory>
 							<resources>          
 								<resource>
-									<directory>/home/denz/TypeScript-1.6.2/lib</directory>
+									<directory>${env.HOME}/TypeScript-1.6.2/lib</directory>
 									<includes>
 										<include>lib.d.ts</include>
 										<include>lib.es6.d.ts</include>
@@ -116,7 +116,7 @@
 							<executable>nodejs</executable>
 							<workingDirectory>.</workingDirectory>
 							<arguments>
-								<argument>/home/denz/TypeScript-1.6.2/lib/tsc.js</argument>
+								<argument>${env.HOME}/TypeScript-1.6.2/lib/tsc.js</argument>
 								<argument>ts/main.ts</argument>
 								<argument>--removeComments</argument>
 								<argument>--out</argument>
