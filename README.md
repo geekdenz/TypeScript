@@ -1,3 +1,9 @@
+#This project is no longer maintained. 
+
+Another project makes this pretty much redundant.
+
+Please see https://github.com/Everlaw/nbts . It has better features like Code Completion and I'm contributing to it rather than maintaining this one.
+
 # TypeScript
 
 ## Specification for NetBeans Support for TypeScript
